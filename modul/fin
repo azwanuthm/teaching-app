@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMT-Learn | Sirip Haba (Fins)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body class="bg-gray-50">
+
+    <nav class="bg-white shadow-sm p-4">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <a href="../index.html" class="text-orange-600 font-bold flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </a>
+            <span class="font-bold">Topik: Sirip Haba</span>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto py-12 px-4">
+        <h1 class="text-3xl font-bold mb-6">Analisis Sirip Haba (Extended Surfaces)</h1>
+        
+        <div class="bg-white p-8 rounded-2xl shadow-md mb-8">
+            <p class="mb-4 leading-relaxed">Sirip haba digunakan untuk meningkatkan kadar perpindahan haba dari permukaan ke bendalir sekeliling dengan meningkatkan luas permukaan.</p>
+            
+            <div class="bg-orange-50 p-6 rounded-xl border-l-4 border-orange-500 mb-6">
+                <h3 class="font-bold mb-2">Persamaan Pembezaan Am:</h3>
+                <p class="text-lg text-center">$$\frac{d^2\theta}{dx^2} - m^2\theta = 0$$</p>
+                <p class="text-sm mt-2 text-center text-gray-500">di mana $m = \sqrt{\frac{hP}{kA_c}}$</p>
+            </div>
+
+            <h3 class="text-xl font-bold mb-4">Jenis-jenis Keadaan Hujung Fin:</h3>
+            <ul class="list-disc ml-6 space-y-2 text-gray-700">
+                <li>Hujung adiabatik (penebat)</li>
+                <li>Fin yang sangat panjang ($L \to \infty$)</li>
+                <li>Kehilangan haba secara perolakan (convection)</li>
+            </ul>
+        </div>
+    </main>
+
+</body>
+</html>
