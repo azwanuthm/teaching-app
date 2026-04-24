@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Teaching App</title>
+</head>
+<body>
+  <h1>Heat Transfer Demo</h1>
+
+  <label>Temperature:</label>
+  <input type="range" min="0" max="100" value="50" id="temp">
+
+  <p id="output"></p>
+
+  <h2>Quiz</h2>
+  <button onclick="answer('A')">A: High to Low</button>
+  <button onclick="answer('B')">B: Low to High</button>
+
+  <p id="quizResult"></p>
+
+  <script>
+    const temp = document.getElementById("temp");
+    const output = document.getElementById("output");
+
+    temp.oninput = function() {
+      output.innerHTML = "Heat Flux: " + (this.value * 2);
+    }
+
+    function answer(a) {
+      if (a === "A") {
+        document.getElementById("quizResult").innerHTML = "Betul!";
+      } else {
+        document.getElementById("quizResult").innerHTML = "Salah";
+      }
+    }
+  </script>
+</body>
+</html>
