@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMT-Learn | Lumped System Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body class="bg-gray-50">
+
+    <nav class="bg-white shadow-sm p-4">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <a href="../index.html" class="text-blue-600 font-bold flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </a>
+            <span class="font-bold text-gray-700">Topik: Analisis Sistem Gumpal</span>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto py-12 px-4">
+        <h1 class="text-3xl font-bold mb-6">Analisis Sistem Gumpal (Lumped System)</h1>
+        
+        <div class="bg-white p-8 rounded-2xl shadow-md mb-8">
+            <p class="mb-4 leading-relaxed">Dalam analisis ini, kita menganggap suhu pepejal adalah seragam di seluruh bahagian pada setiap masa sepanjang proses perpindahan haba fana.</p>
+            
+            <div class="bg-blue-50 p-6 rounded-xl border-l-4 border-blue-500 mb-6">
+                <h3 class="font-bold mb-2">Kriteria Utama (Nombor Biot):</h3>
+                <p class="text-lg text-center">$$Bi = \frac{hL_c}{k} < 0.1$$</p>
+            </div>
+
+            <h3 class="text-xl font-bold mb-4">Persamaan Penyejukan:</h3>
+            <p class="text-lg text-center mb-6">$$\frac{T(t) - T_\infty}{T_i - T_\infty} = e^{-bt}$$</p>
+            <p class="text-sm text-gray-500">di mana $b = \frac{hA_s}{\rho V c_p}$ adalah pemalar masa sistem.</p>
+        </div>
+    </main>
+
+</body>
+</html>
