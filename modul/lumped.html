@@ -158,28 +158,6 @@
   }
   @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
-  .btn-ai {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    color: white;
-    border: none;
-    padding: 0.6rem;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.85rem;
-    transition: opacity 0.2s;
-  }
-  
-  .btn-ai:hover {
-    opacity: 0.9;
-  }
-
   /* --- CONTENT AREA --- */
   .content-area {
     padding: 1rem;
@@ -197,8 +175,14 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     border: 1px solid var(--border);
     width: 100%;
-    min-height: 350px; 
     position: relative;
+  }
+
+  /* Penyelesaian kepada isu graf memanjang */
+  .canvas-container {
+    position: relative;
+    height: 350px;
+    width: 100%;
   }
 
   /* Result Overlay - Top Right */
@@ -255,7 +239,8 @@
     .result-value { font-size: 1.4rem; }
     .result-sub { margin-top: 0; font-size: 0.65rem; }
     
-    .chart-card { min-height: 250px; padding: 0.5rem; }
+    .chart-card { padding: 0.5rem; }
+    .canvas-container { height: 250px; }
     .energy-grid { gap: 0.5rem; }
     .energy-card { padding: 0.5rem; }
     .energy-val { font-size: 0.9rem; }
@@ -353,7 +338,10 @@
       
       <!-- Graph Area -->
       <div class="chart-card">
-        <canvas id="coolingChart"></canvas>
+        <!-- Wrapper container ditambah disini untuk baiki pepijat panjang berterusan -->
+        <div class="canvas-container">
+          <canvas id="coolingChart"></canvas>
+        </div>
         
         <!-- Result Overlay -->
         <div id="resultCard" class="result-overlay">
