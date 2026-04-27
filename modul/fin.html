@@ -3,42 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HMT-Learn | Sirip Haba (Fins)</title>
+    <title>Aplikasi Pembelajaran Heat Transfer: Fin</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .fin-gradient {
+            transition: background 0.3s ease;
+        }
+        input[type=range] {
+            @apply w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600;
+        }
+    </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-slate-50 text-slate-800 min-h-screen">
 
-    <nav class="bg-white shadow-sm p-4">
-        <div class="max-w-5xl mx-auto flex justify-between items-center">
-            <a href="../index.html" class="text-orange-600 font-bold flex items-center gap-2">
-                <i class="fas fa-arrow-left"></i> Kembali
-            </a>
-            <span class="font-bold">Topik: Sirip Haba</span>
-        </div>
-    </nav>
+    <div class="max-w-6xl mx-auto p-4 md:p-8">
+        <!-- Header -->
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-slate-900">Simulasi Perpindahan Haba: Sirip (Fin)</h1>
+            <p class="text-slate-600">Menganalisis profil suhu T(x) untuk kes <i>Adiabatic Tip</i> (Hujung Tertebat).</p>
+        </header>
 
-    <main class="max-w-4xl mx-auto py-12 px-4">
-        <h1 class="text-3xl font-bold mb-6">Analisis Sirip Haba (Extended Surfaces)</h1>
-        
-        <div class="bg-white p-8 rounded-2xl shadow-md mb-8">
-            <p class="mb-4 leading-relaxed">Sirip haba digunakan untuk meningkatkan kadar perpindahan haba dari permukaan ke bendalir sekeliling dengan meningkatkan luas permukaan.</p>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <div class="bg-orange-50 p-6 rounded-xl border-l-4 border-orange-500 mb-6">
-                <h3 class="font-bold mb-2">Persamaan Pembezaan Am:</h3>
-                <p class="text-lg text-center">$$\frac{d^2\theta}{dx^2} - m^2\theta = 0$$</p>
-                <p class="text-sm mt-2 text-center text-gray-500">di mana $m = \sqrt{\frac{hP}{kA_c}}$</p>
+            <!-- Sidebar Kawalan -->
+            <div class="lg:col-span-1 space-y-6 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-xl font-semibold border-b pb-2">Parameter Input</h2>
+                
+                <!-- Suhu -->
+                <div class="space-y-4">
+                    <div>
+                        <label class="flex justify-between text-sm font-medium">
+                            Suhu Tapak (T<sub>base</sub>) <span><span id="label-tb">100</span>°C</span>
+                        </label>
+                        <input type="range" id="input-tb" min="30" max="500" value="100">
+                    </div>
+                    <div>
+                        <label class="flex justify-between text-sm font-medium">
+                            Suhu Ambien (T<sub>&infin;</sub>) <span><span id="label-ta">25</span>°C</span>
+                        </label>
+                        <input type="range" id="input-ta" min="0" max="50" value="25">
+                    </div>
+                </div>
+
+                <!-- Sifat Bahan -->
+                <div class="space-y-4 pt-4 border-t">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Bahan Sirip</label>
+                        <select id="select-material" class="w-full p-2 rounded-md border border-slate-300 text-sm">
+                            <option value="400">Kuprum (k &asymp; 400 W/m.K)</option>
+                            <option value="200" selected>Aluminium (k &asymp; 200 W/m.K)</option>
+                            <option value="50">Keluli Karbon (k &asymp; 50 W/m.K)</option>
+                            <option value="15">Keluli Tahan Karat (k &asymp; 15 W/m.K)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="flex justify-between text-sm font-medium">
+                            Pekali Olakan (h) <span><span id="label-h">50</span> W/m².K</span>
+                        </label>
+                        <input type="range" id="input-h" min="5" max="200" value="50">
+                    </div>
+                    <div>
+                        <label class="flex justify-between text-sm font-medium">
+                            Panjang (L) <span><span id="label-l">0.5</span> m</span>
+                        </label>
+                        <input type="range" id="input-l" min="0.1" max="1.0" step="0.05" value="0.5">
+                    </div>
+                </div>
+
+                <!-- Hasil Pengiraan -->
+                <div class="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-100 space-y-2">
+                    <h3 class="font-bold text-blue-900 text-sm uppercase tracking-wider text-center">Hasil Analisis</h3>
+                    <div class="flex justify-between text-sm border-b border-blue-200 pb-1">
+                        <span>Parameter <i>m</i>:</span>
+                        <span id="res-m" class="font-mono font-bold">0.00</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Kecekapan Sirip (&eta;<sub>f</sub>):</span>
+                        <span id="res-eff" class="font-mono font-bold text-green-600">0.00%</span>
+                    </div>
+                </div>
             </div>
 
-            <h3 class="text-xl font-bold mb-4">Jenis-jenis Keadaan Hujung Fin:</h3>
-            <ul class="list-disc ml-6 space-y-2 text-gray-700">
-                <li>Hujung adiabatik (penebat)</li>
-                <li>Fin yang sangat panjang ($L \to \infty$)</li>
-                <li>Kehilangan haba secara perolakan (convection)</li>
-            </ul>
-        </div>
-    </main>
+            <!-- Panel Visualisasi -->
+            <div class="lg:col-span-2 space-y-8">
+                
+                <!-- Visualisasi Fizikal -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-semibold mb-6 italic text-slate-700">Representasi Grafik Agihan Haba</h2>
+                    <div class="relative h-40 flex items-center bg-slate-100 rounded-lg px-12 overflow-hidden">
+                        <!-- Base -->
+                        <div class="absolute left-0 h-full w-4 bg-slate-800 rounded-l-lg shadow-lg z-10"></div>
+                        <div class="absolute left-4 -top-0 mt-2 text-[10px] font-bold text-slate-500 uppercase z-20">TAPAK (BASE)</div>
+                        
+                        <!-- Fin Body Container -->
+                        <div class="w-full flex items-center">
+                            <div id="fin-visual" class="h-16 w-full border border-slate-400 fin-gradient shadow-md relative rounded-sm">
+                                <div class="absolute right-2 top-1 text-[10px] font-bold text-white/80 uppercase">HUJUNG (TIP)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-between text-xs text-slate-400 px-12 font-mono">
+                        <span>x = 0</span>
+                        <span>x = L</span>
+                    </div>
+                </div>
 
+                <!-- Graf Profil Suhu -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <canvas id="temperatureChart" height="150"></canvas>
+                </div>
+
+            </div>
+        </div>
+        
+        <footer class="mt-12 text-center text-slate-400 text-sm">
+            <p>Azwan's Classroom &copy; 2026</p>
+        </footer>
+    </div>
+
+    <script>
+        // Inisialisasi Chart
+        const ctx = document.getElementById('temperatureChart').getContext('2d');
+        let tempChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Suhu T(x) [°C]',
+                    data: [],
+                    borderColor: '#2563eb',
+                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#2563eb'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: { mode: 'index', intersect: false }
+                },
+                scales: {
+                    x: { 
+                        title: { display: true, text: 'Kedudukan sepanjang sirip, x (m)' },
+                        grid: { display: false }
+                    },
+                    y: { 
+                        title: { display: true, text: 'Suhu (°C)' },
+                        suggestedMin: 20
+                    }
+                }
+            }
+        });
+
+        // Fungsi untuk menukar suhu kepada warna RGB (Panas: Merah, Sejuk: Biru)
+        function tempToColor(temp, minT, maxT) {
+            // Normalize temp antara 0 dan 1
+            const range = maxT - minT || 1;
+            const ratio = (temp - minT) / range;
+            
+            // Map ratio ke warna (255,0,0) untuk panas dan (50,100,255) untuk sejuk
+            const r = Math.floor(50 + (205 * ratio));
+            const g = Math.floor(100 * ratio);
+            const b = Math.floor(255 * (1 - ratio));
+            
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+        function calculate() {
+            // Nilai Input
+            const Tb = parseFloat(document.getElementById('input-tb').value);
+            const Ta = parseFloat(document.getElementById('input-ta').value);
+            const k = parseFloat(document.getElementById('select-material').value);
+            const h = parseFloat(document.getElementById('input-h').value);
+            const L = parseFloat(document.getElementById('input-l').value);
+
+            // Kemaskini Label
+            document.getElementById('label-tb').innerText = Tb;
+            document.getElementById('label-ta').innerText = Ta;
+            document.getElementById('label-h').innerText = h;
+            document.getElementById('label-l').innerText = L;
+
+            // Geometri: Rod Bulat (d = 0.02m)
+            const d = 0.02;
+            const P = Math.PI * d;
+            const Ac = (Math.PI * Math.pow(d, 2)) / 4;
+            const m = Math.sqrt((h * P) / (k * Ac));
+            
+            const points = 20;
+            const labels = [];
+            const data = [];
+            const theta_b = Tb - Ta;
+
+            // Simpan warna untuk gradien visual
+            const gradientColors = [];
+
+            for (let i = 0; i <= points; i++) {
+                let x = (L / points) * i;
+                let theta_x = theta_b * (Math.cosh(m * (L - x)) / Math.cosh(m * L));
+                let Tx = theta_x + Ta;
+                
+                labels.push(x.toFixed(2));
+                data.push(Tx.toFixed(2));
+                
+                // Ambil warna untuk setiap titik x
+                gradientColors.push(`${tempToColor(Tx, Ta, Tb)} ${(i/points)*100}%`);
+            }
+
+            // Kecekapan
+            const mL = m * L;
+            const efficiency = (Math.tanh(mL) / mL) * 100;
+
+            // Update UI & Chart
+            document.getElementById('res-m').innerText = m.toFixed(3);
+            document.getElementById('res-eff').innerText = efficiency.toFixed(2) + "%";
+
+            tempChart.data.labels = labels;
+            tempChart.data.datasets[0].data = data;
+            tempChart.update('none');
+
+            // KEMASKINI VISUAL GRADIENT
+            // Membina string CSS: linear-gradient(to right, color1 0%, color2 5%, ...)
+            const gradientString = `linear-gradient(to right, ${gradientColors.join(', ')})`;
+            document.getElementById('fin-visual').style.background = gradientString;
+        }
+
+        // Listeners
+        const inputs = ['input-tb', 'input-ta', 'input-h', 'input-l', 'select-material'];
+        inputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', calculate);
+        });
+
+        calculate();
+    </script>
 </body>
 </html>
