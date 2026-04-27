@@ -26,14 +26,22 @@
 
   body {
     font-family: 'Inter', sans-serif;
-    background-color: var(--bg-body);
+    background-color: #cbd5e1; /* Latar belakang lebih gelap di luar kawasan app */
     margin: 0;
     padding: 0;
     color: var(--text-main);
+  }
+
+  /* --- APP CONTAINER (Baru: Hadkan kelebaran ke tengah) --- */
+  .app-container {
+    max-width: 1100px; /* Hadkan kelebaran maksimum */
+    margin: 0 auto; /* Pusatkan di tengah skrin */
+    background-color: var(--bg-body);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    overflow-x: hidden; /* Elak scroll kiri-kanan */
+    box-shadow: 0 0 20px rgba(0,0,0,0.1); /* Tambah bayang-bayang di tepi */
+    overflow-x: hidden;
   }
 
   /* --- HEADER --- */
@@ -55,9 +63,10 @@
   /* --- MAIN LAYOUT --- */
   .main-layout {
     display: grid;
-    grid-template-columns: 420px 1fr; 
+    grid-template-columns: 380px 1fr; /* Kecilkan sikit sidebar untuk skrin tengah */
     align-items: start;
     width: 100%;
+    flex: 1; /* Penuhkan ruang kosong di bawah */
   }
 
   /* --- SIDEBAR --- */
@@ -68,7 +77,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
-    min-height: 100vh;
+    height: 100%;
   }
 
   .section-title {
@@ -256,6 +265,9 @@
 </head>
 <body>
 
+<!-- Container Baru Untuk Mengawal Kelebaran -->
+<div class="app-container">
+
   <!-- Header -->
   <header class="app-header">
     <div>
@@ -372,6 +384,7 @@
 
     </main>
   </div>
+</div> <!-- Penutup .app-container -->
 
 <script>
   let myChart = null;
